@@ -10,16 +10,30 @@ library(maps)
 library(RColorBrewer) # creates nice color schemes
 library(classInt)     # finds class intervals for continuous variables
 
+# Download shapefiles... slow!!!!! be patient
+shpurl1 <- "https://github.com/dlizcano/Complex_deforest/blob/master/data/Deptos.zip"
+shpurl2 <- "https://github.com/dlizcano/Complex_deforest/blob/master/data/Municip2014.zip"
+shpurl3 <- "https://github.com/dlizcano/Complex_deforest/blob/master/data/PNN.zip"
+shpurl4 <- "https://github.com/dlizcano/Complex_deforest/blob/master/data/ResgIndig.zip"
+shpurl5 <- "https://github.com/dlizcano/Complex_deforest/blob/master/data/Squares100km.zip"
+tmp    <- tempfile(fileext=".zip")
+download.file(shpurl1, destfile=tmp)
+download.file(shpurl2, destfile=tmp)
+download.file(shpurl3, destfile=tmp)
+download.file(shpurl4, destfile=tmp)
+download.file(shpurl5, destfile=tmp)
+files <- unzip(tmp, exdir=getwd())
+
 
 #get polygons of deptos Colombia
-col_dep <- readShapePoly(fn="C:\\Users\\Diego\\Documents\\CodigoR\\Amazon\\data\\Deptos\\Limite_Departamental.shp")
+col_dep <- readShapePoly(fn="Limite_Departamental.shp")
 Encoding(levels(col_dep$NOMBRE_DPT)) <- "latin1"
 names(col_dep)
 length(col_dep$NOMBRE_DPT) # number of deptos
 (labs_dep<-col_dep$NOMBRE_DPT) # see labs for deptos
 
 #get polygons of deptos Colombia
-col_mun <- readShapePoly(fn="C:\\Users\\Diego\\Documents\\CodigoR\\Amazon\\data\\Municip\\2014\\Municipios.shp")
+col_mun <- readShapePoly(fn="Municipios.shp")
 Encoding(levels(col_mun$NOM_MUNICI)) <- "latin1"
 Encoding(levels(col_mun$NOM_DEPART)) <- "latin1"
 names(col_mun)
@@ -27,21 +41,21 @@ length(col_mun$NOM_MUNICI) # number of municip
 (labs_muni<-col_mun$NOM_MUNICI) # see labs for municip
 
 #get polygons of PNN. File Edited, some parks in Andes missing
-col_PNN <- readShapePoly(fn="C:\\Users\\Diego\\Documents\\CodigoR\\Amazon\\data\\PNN\\Parques Nacionales Naturales segun Categoria (2012).shp",delete_null_obj=TRUE)
+col_PNN <- readShapePoly(fn="Parques Nacionales Naturales segun Categoria (2012).shp",delete_null_obj=TRUE)
 Encoding(levels(col_PNN$NOM_PARQUE)) <- "latin1"
 names(col_PNN)
 length(col_PNN$NOM_PARQUE) # number of parques
 (labs_PNN<-col_PNN$NOM_PARQUE) # see labs for PNN
 
 #get polygons of Resguardo Indigena Just Amazon. Andean were deleted
-col_res <- readShapePoly(fn="C:\\Users\\Diego\\Documents\\CodigoR\\Amazon\\data\\ResgIndig\\Resguardos Indigenas (2012).shp",delete_null_obj=TRUE)
+col_res <- readShapePoly(fn="Resguardos Indigenas (2012).shp",delete_null_obj=TRUE)
 Encoding(levels(col_res$RINOMBRE)) <- "latin1"
 names(col_res)
 length(col_res$RINOMBRE) # number of resguardos
 (labs_res<-col_res$RINOMBRE) # see labs for resguardos
 
 #get polygons for squares
-amaz_cuad <- readShapePoly(fn="C:\\Users\\Diego\\Documents\\CodigoR\\Amazon\\data\\Squares\\Squares_100km.shp",delete_null_obj=TRUE)
+amaz_cuad <- readShapePoly(fn="Squares_100km.shp",delete_null_obj=TRUE)
 names(amaz_cuad)
 length(amaz_cuad$Unique_ID) # number of squares
 (labs_cua<-amaz_cuad$Unique_ID) # see labs for resguardos
